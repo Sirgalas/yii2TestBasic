@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\modules\post\models;
 
 use Yii;
 
@@ -15,6 +15,8 @@ use Yii;
  * @property string $preview
  * @property integer $create_at
  * @property integer $update_at
+ * @property integer $autor_id
+ * @property integer $status
  */
 class Post extends \yii\db\ActiveRecord
 {
@@ -32,9 +34,9 @@ class Post extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'alias', 'content', 'img', 'preview', 'create_at', 'update_at'], 'required'],
+            [['title', 'alias', 'content', 'img', 'preview', 'create_at', 'update_at', 'autor_id'], 'required'],
             [['content'], 'string'],
-            [['create_at', 'update_at'], 'integer'],
+            [['create_at', 'update_at', 'autor_id', 'status'], 'integer'],
             [['title'], 'string', 'max' => 255],
             [['alias', 'img', 'preview'], 'string', 'max' => 610],
         ];
@@ -54,6 +56,8 @@ class Post extends \yii\db\ActiveRecord
             'preview' => 'Preview',
             'create_at' => 'Create At',
             'update_at' => 'Update At',
+            'autor_id' => 'Autor ID',
+            'status' => 'Status',
         ];
     }
 }
