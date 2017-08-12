@@ -71,7 +71,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     ->hint(Html::a(Yii::t('user', 'Change your avatar at Gravatar.com'), 'http://gravatar.com')) ?>
 
                 <?= $form->field($model, 'bio')->textarea() ?>
-
+                <?= $form->field($model, 'email_massage')->checkbox(['value'=>1]); ?>
+                <?= $form->field($model, 'broweser_massage')->checkbox(['value'=>1]); ?>
                 <div class="form-group">
                     <div class="col-lg-offset-3 col-lg-9">
                         <?= Html::submitButton(Yii::t('user', 'Save'), ['class' => 'btn btn-block btn-success']) ?>

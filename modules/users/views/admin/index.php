@@ -3,13 +3,12 @@
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\web\View;
 use yii\widgets\Pjax;
 
 /**
  * @var \yii\web\View $this
  * @var \yii\data\ActiveDataProvider $dataProvider
- * @var \dektrium\user\models\UserSearch $searchModel
+ * @var \app\models\UsersSearch $searchModel
  */
 
 $this->title = Yii::t('user', 'Manage users');
@@ -21,7 +20,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= $this->render('/admin/_menu') ?>
 
 <?php Pjax::begin() ?>
-
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel'  => $searchModel,
@@ -40,7 +38,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             },
         ],
-
         [
             'attribute' => 'last_login_at',
             'value' => function ($model) {
@@ -54,46 +51,21 @@ $this->params['breadcrumbs'][] = $this->title;
             },
         ],
         [
-            'header' => Yii::t('user', 'Confirmation'),
-            'value' => function ($model) {
-                if ($model->isConfirmed) {
-                    return '<div class="text-center">
-                                <span class="text-success">' . Yii::t('user', 'Confirmed') . '</span>
-                            </div>';
-                } else {
-                    return Html::a(Yii::t('user', 'Confirm'), ['confirm', 'id' => $model->id], [
-                        'class' => 'btn btn-xs btn-success btn-block',
-                        'data-method' => 'post',
-                        'data-confirm' => Yii::t('user', 'Are you sure you want to confirm this user?'),
-                    ]);
-                }
-            },
-            'format' => 'raw',
-            'visible' => Yii::$app->getModule('user')->enableConfirmation,
-        ],
-        [
-            'header' => Yii::t('user', 'Block status'),
-            'value' => function ($model) {
-                if ($model->isBlocked) {
-                    return Html::a(Yii::t('user', 'Unblock'), ['block', 'id' => $model->id], [
-                        'class' => 'btn btn-xs btn-success btn-block',
-                        'data-method' => 'post',
-                        'data-confirm' => Yii::t('user', 'Are you sure you want to unblock this user?'),
-                    ]);
-                } else {
-                    return Html::a(Yii::t('user', 'Block'), ['block', 'id' => $model->id], [
-                        'class' => 'btn btn-xs btn-danger btn-block',
-                        'data-method' => 'post',
-                        'data-confirm' => Yii::t('user', 'Are you sure you want to block this user?'),
-                    ]);
-                }
-            },
-            'format' => 'raw',
-        ],
-        [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{switch} {resend_password} {update} {delete}',
+            'template' => '{create} {switch} {resend_password} {updateModal} {update} {delete}',
             'buttons' => [
+                'create'=>function ($url, $model, $key) {
+                    return \yii\bootstrap\Modal::widget([
+                        'id' => 'create-modal',
+                        'toggleButton' => [
+                            'label' => '<span class="glyphicon glyphicon-plus" aria-hidden="true" title="Create modal"></span>',
+                            'tag' => 'a',
+                            'data-target' => '#create-modal',
+                            'href' => Url::toRoute([\Yii::getAlias('//admin/creates')]),
+                        ],
+                        'clientOptions' => false,
+                    ]);
+                },
                 'resend_password' => function ($url, $model, $key) {
                     if (!$model->isAdmin) {
                         return '
@@ -110,10 +82,22 @@ $this->params['breadcrumbs'][] = $this->title;
                             'data-method' => 'POST',
                         ]);
                     }
-                }
+                },
+                'updateModal'=>function ($url, $model, $key) {
+                    //return Html::a('<span class="glyphicon glyphicon glyphicon-picture" aria-label="Image"></span>', Url::to([\Yii::getAlias('//admin/update'),'id'=>$model->id]));
+                   return \yii\bootstrap\Modal::widget([
+                        'id' => 'update-modal',
+                        'toggleButton' => [
+                            'label' => '<span class="glyphicon  glyphicon-wrench" aria-hidden="true" title="Update modal"></span>',
+                            'tag' => 'a',
+                            'data-target' => '#update-modal',
+                            'href' => Url::toRoute([\Yii::getAlias('//admin/updates'),'id'=>$model->id]),
+                        ],
+                        'clientOptions' => false,
+                    ]);
+                },
             ]
         ],
     ],
 ]); ?>
-
 <?php Pjax::end() ?>
