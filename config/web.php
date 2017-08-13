@@ -78,7 +78,7 @@ $config = [
                     }
                 ],
             ],
-            //'admins' => ['Sergalas'] first register user admin
+            //'admins' => ['Your name'] //first register user admin
 
         ],
         'rbac' => 'dektrium\rbac\RbacWebModule',
