@@ -18,7 +18,6 @@ class MessageUserSearh extends MessageUser
     public function rules()
     {
         return [
-            [['id', 'id_user', 'fromMessage', 'id_post'], 'integer'],
             [['viewd', 'subject', 'text'], 'safe'],
         ];
     }
@@ -41,7 +40,7 @@ class MessageUserSearh extends MessageUser
      */
     public function search($params)
     {
-        $query = MessageUser::find();
+        $query = MessageUser::find()->where(['id_user'=>Yii::$app->user->identity->id]);
 
         // add conditions that should always apply here
 
@@ -60,9 +59,6 @@ class MessageUserSearh extends MessageUser
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'id_user' => $this->id_user,
-            'fromMessage' => $this->fromMessage,
-            'id_post' => $this->id_post,
         ]);
 
         $query->andFilterWhere(['like', 'viewd', $this->viewd])

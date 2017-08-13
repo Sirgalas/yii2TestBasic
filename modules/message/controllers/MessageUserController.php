@@ -5,6 +5,7 @@ namespace app\modules\message\controllers;
 use Yii;
 use app\modules\message\models\MessageUser;
 use app\modules\message\models\MessageUserSearh;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -37,6 +38,21 @@ class MessageUserController extends Controller
     {
         $searchModel = new MessageUserSearh();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        if (Yii::$app->request->post('hasEditable')) {
+            $bookId = Yii::$app->request->post('editableKey');
+            $model = MessageUser::findOne($bookId);
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $posted = current($_POST['MessageUser']);
+            $post = ['MessageUser' => $posted];
+            if ($model->load($post)) {
+                $model->save();
+                $output = '';
+                $out = Json::encode(['output'=>$output, 'message'=>'']);
+            }
+            echo $out;
+            return ;
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,

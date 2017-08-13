@@ -48,7 +48,7 @@ if(Yii::$app->user->isGuest){
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'Home', 'url' => ['/']],
             !empty($user['admin'])?
                 (['label' => 'User redact',  'url' => ['/user/admin/index ']]):'',
             !Yii::$app->user->isGuest?(['label' => 'Message',  'url' => ['/message/message-user/index ']]):'',

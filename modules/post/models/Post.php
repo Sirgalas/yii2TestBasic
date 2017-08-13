@@ -106,17 +106,14 @@ class Post extends \yii\db\ActiveRecord
         }
         return var_dump($model->getError);
     }
-
-    public function thisEvent(){
-        $this->trigger(Post::EVENT_AFTER_INSERT);
-    }
+    
     public function alertMessage($from,$user,$subject,$options,$model){
 
         $alert=new MessageUser([
             'id_user'       =>  $user->id,
             'fromMessage'  =>   $from,
             'subject'       =>  $subject,
-            'text'          =>  Html::encode('For your absence was added post ').$model->title. Html::a('Click go',Url::to(['post/post/view','id'=>$model->id])),
+            'text'          =>  Html::encode('For your absence was added post ').$model->title. Html::a(' Click go',Url::to(['post/post/view','id'=>$model->id])),
             'id_post'       =>  $model->id
         ]);
         $alert->save();
@@ -146,6 +143,7 @@ class Post extends \yii\db\ActiveRecord
     public function getImgViews(){
         return Html::img($this->image->path.'/'.$this->image->name);
     }
+    
     public function getAutorName(){
         return $this->autor->username;
     }

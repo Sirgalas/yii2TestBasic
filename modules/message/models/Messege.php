@@ -19,9 +19,11 @@ class Messege extends Model
             foreach ($model->handler as $handler){
                 $users= User::find()->where([$handler['feild']=>1])->all();
                 foreach ($users as $user){
-                    $handlerMethod=$handler['metod'];
-                    $this->on($model->events,[$model,$model->$handlerMethod($handler['from'],$user,$handler['subject'],$handler['options'],$model)]);
-                }
+                    if($model->autor_id!=$user->id){
+                        $handlerMethod=$handler['metod'];
+                        $this->on($model->events,[$model,$model->$handlerMethod($handler['from'],$user,$handler['subject'],$handler['options'],$model)]);
+                    }
+                 }
             }
     }
     
