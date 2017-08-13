@@ -18,8 +18,8 @@ class MessageUserSearh extends MessageUser
     public function rules()
     {
         return [
-            [['id', 'id_post', 'id_user'], 'integer'],
-            [['viewd'], 'safe'],
+            [['id', 'id_user', 'fromMessage'], 'integer'],
+            [['viewd', 'subject', 'text'], 'safe'],
         ];
     }
 
@@ -60,11 +60,13 @@ class MessageUserSearh extends MessageUser
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'id_post' => $this->id_post,
             'id_user' => $this->id_user,
+            'fromMessage' => $this->fromMessage,
         ]);
 
-        $query->andFilterWhere(['like', 'viewd', $this->viewd]);
+        $query->andFilterWhere(['like', 'viewd', $this->viewd])
+            ->andFilterWhere(['like', 'subject', $this->subject])
+            ->andFilterWhere(['like', 'text', $this->text]);
 
         return $dataProvider;
     }

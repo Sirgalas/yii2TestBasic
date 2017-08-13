@@ -1,6 +1,7 @@
 <?php
 
-namespace app\models;
+namespace app\modules\post\models;
+
 
 use Yii;
 
@@ -27,7 +28,7 @@ class Image extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['path', 'name'], 'required'],
+            [['path', 'name','id_post'], 'required'],
             [['path', 'name'], 'string', 'max' => 610],
         ];
     }
@@ -39,6 +40,7 @@ class Image extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'id_post'=> 'Id Post',
             'path' => 'Path',
             'name' => 'Name',
         ];

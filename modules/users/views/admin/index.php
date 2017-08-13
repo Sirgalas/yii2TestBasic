@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'label' => '<span class="glyphicon glyphicon-plus" aria-hidden="true" title="Create modal"></span>',
                             'tag' => 'a',
                             'data-target' => '#create-modal',
-                            'href' => Url::toRoute([\Yii::getAlias('//admin/creates')]),
+                            'href' => Url::toRoute([\Yii::getAlias('//users/admin/creates')]),
                         ],
                         'clientOptions' => false,
                     ]);
@@ -91,11 +91,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             'label' => '<span class="glyphicon  glyphicon-wrench" aria-hidden="true" title="Update modal"></span>',
                             'tag' => 'a',
                             'data-target' => '#update-modal',
-                            'href' => Url::toRoute([\Yii::getAlias('//admin/updates'),'id'=>$model->id]),
+                            'href' => Url::toRoute([\Yii::getAlias('//users/admin/updates'),'id'=>$model->id]),
                         ],
                         'clientOptions' => false,
                     ]);
                 },
+                
             ]
         ],
     ],

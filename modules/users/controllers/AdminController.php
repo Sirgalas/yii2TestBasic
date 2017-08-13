@@ -1,7 +1,8 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\users\controllers;
 
+use Yii;
 use yii\helpers\Url;
 use app\models\UsersSearch;
 use dektrium\user\controllers\AdminController as BaseAdminController;
@@ -31,13 +32,17 @@ class AdminController extends BaseAdminController
             ],
         ];
     }
+    /*public function getViewPath()
+    {
+        return Yii::getAlias('@app/modules/users/views/admin/');
+    }*/
 
     public function actionIndex()
     {
         $searchModel  = new UsersSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
 
-        return $this->render(\Yii::getAlias('//admin/index'), [
+        return $this->render('@app/modules/users/views/admin/index', [
             'dataProvider' => $dataProvider,
             'searchModel'  => $searchModel,
         ]);
@@ -60,7 +65,7 @@ class AdminController extends BaseAdminController
             return $this->redirect(['update', 'id' => $user->id]);
         }
 
-        return $this->renderPartial(\Yii::getAlias('//admin/create'), [
+        return $this->renderPartial('/message/message/index ', [
             'user' => $user,
         ]);
     }
@@ -83,7 +88,7 @@ class AdminController extends BaseAdminController
             }
 
         }
-        return $this->renderPartial(\Yii::getAlias('//admin/update'), [
+        return $this->renderPartial('@app/modules/users/views/admin/update', [
             'user' => $user,
         ]);
     }

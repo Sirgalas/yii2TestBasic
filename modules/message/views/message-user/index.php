@@ -24,8 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'id_post',
                 'format'=>'raw',
+                'header'=>'message',
                 'value'=> function($model){
-                    return Html::encode('For your absence was added').$model->post->title. Html::a('Click go',Url::to(['post/post/view','id'=>$model->id_post]));
+                    return Html::encode('For your absence was added post ').$model->post->title. Html::a('Click go',Url::to(['post/post/view','id'=>$model->id_post]));
                 }
             ],
 

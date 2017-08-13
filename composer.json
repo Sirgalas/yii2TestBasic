@@ -17,7 +17,16 @@
         "php": ">=5.4.0",
         "yiisoft/yii2": "~2.0.5",
         "yiisoft/yii2-bootstrap": "~2.0.0",
-        "yiisoft/yii2-swiftmailer": "~2.0.0"
+        "yiisoft/yii2-swiftmailer": "~2.0.0",
+        "dektrium/yii2-user": "^0.9.12",
+        "dektrium/yii2-rbac": "1.0.0-alpha@dev",
+        "kartik-v/yii2-widget-datepicker": "*",
+        "2amigos/yii2-ckeditor-widget": "^2.1",
+        "zainiafzan/yii2-dropzone": "dev-master",
+        "kartik-v/yii2-field-range": "*",
+        "kartik-v/yii2-grid": "@dev",
+        "kartik-v/yii2-editable": "@dev",
+        "nterms/yii2-pagesize-widget": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

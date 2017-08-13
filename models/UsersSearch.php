@@ -1,17 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: root
- * Date: 09.08.17
- * Time: 9:50
- */
 
 namespace app\models;
 
-use dektrium\user\models\UserSearch ;
+use dektrium\user\models\User;
 use yii\data\ActiveDataProvider;
 
-class UsersSearch extends  UserSearch
+class UsersSearch extends User
 {
     /** @var int */
     public $id;
@@ -32,13 +26,12 @@ class UsersSearch extends  UserSearch
     public function rules()
     {
         return [
-            'fieldsSafe' => [['username', 'email', 'id', 'created_at', 'last_login_at'], 'safe'],
+            [['id','username', 'email',  'created_at', 'last_login_at'], 'safe'],
         ];
     }
     public function search($params)
     {
         $query = $this->finder->getUserQuery();
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -51,11 +44,9 @@ class UsersSearch extends  UserSearch
             $date = strtotime($this->created_at);
             $query->andFilterWhere(['between', 'created_at', $date, $date + 3600 * 24]);
         }
-
         $query->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'id', $this->id])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['registration_ip' => $this->registration_ip]);
+            ->andFilterWhere(['like', 'email', $this->email]);
 
         return $dataProvider;
     }

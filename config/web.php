@@ -6,27 +6,30 @@ $db = require(__DIR__ . '/db.php');
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
+    'defaultRoute' => 'post/post/index',
     'bootstrap' => ['log'],
+    'aliases' => [
+        '@myweb'=> "http://".$_SERVER['HTTP_HOST'].'/web/'
+    ],
     'components' => [
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@dektrium/user/views' => '@app/modules/users/views/user'
+                ],
+            ],
+        ],
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '1MftF_29QdkodLdnr9Ya1cZy4HWquo40',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
-        ],
-        'user' => [
-            'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
             'useFileTransport' => true,
         ],
         'log' => [
@@ -39,20 +42,55 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
+    ],
+    'modules' => [
+        'gridview' =>  [
+            'class' => '\kartik\grid\Module'
+        ],
+        'users' => [
+            'class' => 'app\modules\users\Module',
+        ],
+        'message' => [
+            'class' => 'app\modules\message\Module',
+            'models'=>['app\modules\post\models\Post'],
+            'user'  =>'dektrium\user\models\User',
+        ],
+        'user' => [
+            'class' => 'dektrium\user\Module',
+            'adminPermission' => 'admin',
+            'modelMap' => [
+                'Profile'=>'app\models\Profile',
+            ],
+            'controllerMap' => [
+                'admin' => 'app\modules\users\controllers\AdminController',
+                'registration' => [
+                    'class' => \dektrium\user\controllers\RegistrationController::className(),
+                    'on ' . \dektrium\user\controllers\RegistrationController::EVENT_AFTER_REGISTER  => function ($event) {
+                        $auth = Yii::$app->authManager;
+                        $role = $auth->getRole('user');
+                        $user = \dektrium\user\models\User::findOne(['username' => $event->form->username]);
+                        $auth->assign($role, $user->id);
+                    }
+                ],
+            ],
+            //'admins' => ['Sergalas'] first register user admin
+
+        ],
+        'rbac' => 'dektrium\rbac\RbacWebModule',
+        'post' => [
+            'class' => 'app\modules\post\Module',
+        ],
     ],
     'params' => $params,
 ];
 
 if (YII_ENV_DEV) {
-    // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',

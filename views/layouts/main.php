@@ -8,8 +8,18 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-
+use yii\helpers\Url;
+$user=Yii::$app->authManager->getRolesByUser(\Yii::$app->user->identity->id);
 AppAsset::register($this);
+
+if(Yii::$app->user->isGuest){
+    $arrReg=['label' => 'Login', 'url' => ['/user/security/login']];
+    $arrGuest=['label' => 'Sigin', 'url'=>['/user/registration/register']];
+}else{
+    $arrReg=['label' => 'Profile',  'url' => ['/user/settings/profile']];
+    $arrGuest=['label' => 'Logout',  'url' => ['/user/security/logout'],'linkOptions' => ['data-method' => 'post']];
+}
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -25,7 +35,8 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap">
+<div class="wrap ">
+    <?php if(!isset($this->params['body-class'])){ ?>
     <?php
     NavBar::begin([
         'brandLabel' => 'My Company',
@@ -38,25 +49,18 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
+            !empty($user['admin'])?
+                (['label' => 'User redact',  'url' => ['/user/admin/index ']]):'',
+            !Yii::$app->user->isGuest?(['label' => 'Message',  'url' => ['/message/message-user/index ']]):'',
+            $arrReg,
+            $arrGuest
         ],
     ]);
     NavBar::end();
     ?>
 
+        <div class="<?= $this->params['body-class'] ?>">
+    <?php } ?>
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -64,7 +68,8 @@ AppAsset::register($this);
         <?= $content ?>
     </div>
 </div>
-
+<?php if(!isset($this->params['body-class'])){ ?>
+</div>
 <footer class="footer">
     <div class="container">
         <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
@@ -72,7 +77,7 @@ AppAsset::register($this);
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
-
+<?php } ?>
 <?php $this->endBody() ?>
 </body>
 </html>

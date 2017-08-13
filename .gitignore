@@ -14,7 +14,7 @@ Thumbs.db
 
 # composer vendor dir
 /vendor
-
+/web/image
 # composer itself is not needed
 composer.phar
 
@@ -28,3 +28,9 @@ phpunit.phar
 
 tests/_output/*
 tests/_support/_generated
+
+/db.php
+/params.php
+/.htaccess
+/index.php
+/index-test.php

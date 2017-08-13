@@ -7,6 +7,8 @@ namespace app\modules\message;
  */
 class Module extends \yii\base\Module
 {
+    public $models;
+    public $user;
     /**
      * @inheritdoc
      */
@@ -20,5 +22,12 @@ class Module extends \yii\base\Module
         parent::init();
 
         // custom initialization code goes here
+    }
+    public function getAllModels(){
+        
+        return $this->models;
+    }
+    public function getUser(){
+        return $this->user;
     }
 }

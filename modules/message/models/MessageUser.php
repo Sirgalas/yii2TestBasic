@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\message;
+namespace app\modules\message\models;
 
 use Yii;
 
@@ -11,6 +11,9 @@ use Yii;
  * @property integer $id_post
  * @property integer $id_user
  * @property string $viewd
+ * @property integer $fromMessage
+ * @property string $subject
+ * @property string $text
  */
 class MessageUser extends \yii\db\ActiveRecord
 {
@@ -28,9 +31,10 @@ class MessageUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_post', 'id_user'], 'required'],
-            [['id_post', 'id_user'], 'integer'],
-            [['viewd'], 'string'],
+            [['id_user', 'fromMessage', 'subject', 'text'], 'required'],
+            [['id_post', 'id_user', 'fromMessage'], 'integer'],
+            [['viewd', 'text'], 'string'],
+            [['subject'], 'string', 'max' => 610],
         ];
     }
 
@@ -41,9 +45,11 @@ class MessageUser extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_post' => 'Id Post',
             'id_user' => 'Id User',
             'viewd' => 'Viewd',
+            'fromMessage' => 'From Message',
+            'subject' => 'Subject',
+            'text' => 'Text',
         ];
     }
 }

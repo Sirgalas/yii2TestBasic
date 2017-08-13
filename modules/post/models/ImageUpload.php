@@ -6,35 +6,51 @@
  * Time: 13:06
  */
 
-namespace app\models;
+namespace app\modules\post\models;
+
+use app\models\ImgToPost;
 use yii\base\Model;
 use yii\web\UploadedFile;
 use yii\helpers\BaseFileHelper;
 
 class ImageUpload extends Model
 {
-    public $fileImages;
+    public $imageFile;
 
     public function rules()
     {
         return [
-            [['fileImages'], 'file',  'extensions' => 'png, jpg'],
+            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg, gif'],
         ];
     }
 
-    public function upload(){
+    public function upload($idPost){
         $uploadPath=\Yii::getAlias('@app').'/web/image/post/'.date('Y').'/'.date('m');
         BaseFileHelper::createDirectory($uploadPath);
 
         if ($this->validate()) {
-            foreach ($this->fileImages as $file) {
-                $imageFile=$uploadPath . '/' . $file->baseName.'.'.$file->extension;
-                if ($file->image->saveAs($imageFile)) {
-                    return $imageFile;
+                $imageFile=$uploadPath . '/' . $this->imageFile->baseName.'.'.$this->imageFile->extension;
+                $this->imageFile->saveAs($imageFile);
+                $saveImage=$this->saveImage(\Yii::getAlias('@web').'/image/post/'.date('Y').'/'.date('m'),$this->imageFile->baseName.'.'.$this->imageFile->extension,$idPost);
+                if(!$saveImage){
+                    return false;
                 }
-                return 'no1';
-            }
-        }
+                return $saveImage;
+        } 
         return var_dump($this->getErrors());
     }
+
+    protected function  saveImage($uploadPath,$name,$idPost){
+        $image=new Image([
+            'path'=>$uploadPath,
+            'name'=>$name,
+            'id_post'=>$idPost
+        ]);
+        if($image->save()){
+                return false;
+        }
+        return var_dump($image->getErrors());
+    }
+
+
 }
