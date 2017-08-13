@@ -86,7 +86,9 @@ class Post extends \yii\db\ActiveRecord
     public function getModels(){
         return $this->modeles;
     }
-
+    public function thisEvent(){
+        $this->trigger(Post::EVENT_AFTER_INSERT);
+    }
     public function alertMessage($from,$to,$subject,$text,$options=false){
         $alert=new MessageUser([
             'id_user'       =>  $to,
