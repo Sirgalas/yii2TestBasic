@@ -9,7 +9,7 @@ use yii\helpers\Url;
 use kartik\editable\Editable;
 use dektrium\user\models\User;
 use app\modules\message\behaviors\MessageBehaviors;
-use app\modules\message\controllers\MessageController;
+use app\modules\message\models\Messege;
 /**
  * This is the model class for table "post".
  *
@@ -29,14 +29,41 @@ class Post extends \yii\db\ActiveRecord
     private $columnStatusUser;
     private $actionColumn;
     private $user;
-    private $modeles;
     public function __construct(){
 
         $this->user=Yii::$app->authManager->getRolesByUser(\Yii::$app->user->identity->id);
         parent::__construct();
     }
 
+    public function behaviors()
+    {
+        return [
+            'mailMessage' => [
+                'class'             =>  MessageBehaviors::className(),
+                'handler'              =>  [
+                    [
+                        'type'      =>  'mail',
+                        'feild'     =>  'email_massage',
+                        'metod'     =>  'emailMessage',
+                        'from'      =>  \Yii::$app->params['adminEmail'],
+                        'subject'   =>  'new post',
+                        'options'   =>  '@app/modules/message/mail/post'
+                    ],
+                    [
+                        'type'      =>  'alert',
+                        'feild'     =>  'broweser_massage',
+                        'metod'     =>  'alertMessage',
+                        'from'      =>  Yii::$app->user->identity->id,
+                        'subject'   =>  '<strong>Good afternoon!</strong> Thank you for visiting our site. We hasten to inform you that during your absence, new posts were posted on our website. Information about them you can see in the message section',
+                        'options'   =>  null
+                    ]
+                ],
+                'events'            =>  'Post:EVENT_AFTER_INSERT',
+                'handlerName'       =>  ['mail','alert']
 
+            ],
+        ];
+    }
 
     public function getImage(){
         return $this->hasOne(Image::className(),['id_post'=>'id']);
@@ -69,39 +96,36 @@ class Post extends \yii\db\ActiveRecord
     }
 
     public function saves($model){
-
+        $message=new Messege();
         $model->create_at=time();
         $model->update_at=time();
         $model->autor_id=\Yii::$app->user->identity->id;
         $model->status='active';
         if($model->save()){
-            $this->setModels($model);
-            return false;
+            return $message->message($model);;
         }
         return var_dump($model->getError);
     }
-    public function setModels($model){
-        return $this->modeles=$model;
-    }
-    public function getModels(){
-        return $this->modeles;
-    }
+
     public function thisEvent(){
         $this->trigger(Post::EVENT_AFTER_INSERT);
     }
-    public function alertMessage($from,$to,$subject,$text,$options=false){
+    public function alertMessage($from,$user,$subject,$options,$model){
+
         $alert=new MessageUser([
-            'id_user'       =>  $to,
+            'id_user'       =>  $user->id,
             'fromMessage'  =>   $from,
             'subject'       =>  $subject,
-            'text'          =>  $text
+            'text'          =>  Html::encode('For your absence was added post ').$model->title. Html::a('Click go',Url::to(['post/post/view','id'=>$model->id])),
+            'id_post'       =>  $model->id
         ]);
+        $alert->save();
     }
 
-    public function emailMessage($from,$to,$subject,$text=false,$adress,$id){
-        Yii::$app->mailer->compose($adress,$id)
+    public function emailMessage($from,$user,$subject,$options,$model){
+        Yii::$app->mailer->compose($options,['id'=>$model->id])
             ->setFrom($from)
-            ->setTo($to)
+            ->setTo($user->email)
             ->setSubject($subject)
             ->send();
     }
@@ -187,38 +211,6 @@ class Post extends \yii\db\ActiveRecord
         if(Yii::$app->user->isGuest)
             return false;
         return true;
-    }
-    public function behaviors()
-    {
-        return [
-            'mailMessage' => [
-                'class'             =>  MessageBehaviors::className(),
-                'handler'              =>  [
-                    [
-                        'type'      =>  'mail',
-                        'feild'     =>  'email_massage',
-                        'metod'     =>  'emailMessage',
-                        'from'      =>  \Yii::$app->params['adminEmail'],
-                        'subject'   =>  'new post',
-                        'text'      =>  null,
-                        'options'   =>  ['adress'=>'@app/modules/message/mail/post','id'=>['id'=>".$this->models->id."]]
-                    ],
-                    [
-                        'type'      =>  'alert',
-                        'feild'     =>  'broweser_massage',
-                        'metod'     =>  'alertMessage',
-                        'from'      =>  Yii::$app->user->identity->id,
-                        'subject'   =>  '<strong>Good afternoon!</strong> Thank you for visiting our site. We hasten to inform you that during your absence, new posts were posted on our website. Information about them you can see in the message section',
-                        'text'      =>  $this->modeles,
-                        'options'   =>  null
-                    ]
-                ],
-                'modelThis'   => $this->getModels(),
-                'events'            =>  'Post:EVENT_AFTER_INSERT',
-                'handlerName'       =>  ['mail','alert']
-
-            ],
-        ];
     }
 
     /**

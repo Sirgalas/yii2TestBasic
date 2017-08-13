@@ -125,7 +125,7 @@ class PostController extends Controller
             $saves=$model->saves($model);
             $imageUpload->upload($model->id);
             if(!$saves){
-                return $this->redirect(['/message/message/index ']);
+                return $this->redirect(['index']);
             }else{
                 return var_dump($saves);
             }

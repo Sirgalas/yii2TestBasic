@@ -8,12 +8,12 @@ use Yii;
  * This is the model class for table "message_user".
  *
  * @property integer $id
- * @property integer $id_post
  * @property integer $id_user
  * @property string $viewd
  * @property integer $fromMessage
  * @property string $subject
  * @property string $text
+ * @property integer $id_post
  */
 class MessageUser extends \yii\db\ActiveRecord
 {
@@ -31,8 +31,8 @@ class MessageUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_user', 'fromMessage', 'subject', 'text'], 'required'],
-            [['id_post', 'id_user', 'fromMessage'], 'integer'],
+            [['id_user', 'fromMessage', 'subject', 'text', 'id_post'], 'required'],
+            [['id_user', 'fromMessage', 'id_post'], 'integer'],
             [['viewd', 'text'], 'string'],
             [['subject'], 'string', 'max' => 610],
         ];
@@ -50,6 +50,7 @@ class MessageUser extends \yii\db\ActiveRecord
             'fromMessage' => 'From Message',
             'subject' => 'Subject',
             'text' => 'Text',
+            'id_post' => 'Id Post',
         ];
     }
 }

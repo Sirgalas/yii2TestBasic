@@ -58,8 +58,7 @@ $config = [
         ],
         'message' => [
             'class' => 'app\modules\message\Module',
-            'models'=>['app\modules\post\models\Post'],
-            'user'  =>'dektrium\user\models\User',
+
         ],
         'user' => [
             'class' => 'dektrium\user\Module',
