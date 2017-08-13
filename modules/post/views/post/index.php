@@ -16,7 +16,7 @@ echo \yii\bootstrap\Alert::widget([
     'options' => [
         'class' => 'alert-info'
     ],
-    'body' => '<strong>Good afternoon!</strong> Thank you for visiting our site. We hasten to inform you that during your absence, new posts were posted on our website. Information about them you can see in the message section'
+    'body' => $messageUsers->subject
 ]);
 }
 ?>

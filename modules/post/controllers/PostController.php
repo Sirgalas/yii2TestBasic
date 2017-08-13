@@ -100,7 +100,7 @@ class PostController extends Controller
             echo $out;
             return ;
         }
-        $messageUser= MessageUser::find()->where(['id_user'=>Yii::$app->user->identity->id])->one();
+        $messageUser= MessageUser::find()->where(['id_user'=>Yii::$app->user->identity->id,'viewd'=>'не прочитано'])->one();
         return $this->render('index', [
             'messageUsers'=>$messageUser,
             'searchModel' => $searchModel,
