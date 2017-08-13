@@ -1,7 +1,7 @@
 {
     "name": "sergalas/yii2-test-basic",
     "description": "Yii 2 Basic Test Project Template",
-    "keywords": ["yii2", "framework", "basic",,"test project", "project template"],
+    "keywords": ["yii2", "framework", "basic","test project", "project template"],
     "type": "project",
     "license": "BSD-3-Clause",
     "minimum-stability": "stable",
