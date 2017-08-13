@@ -1,0 +1,1 @@
+php yii migrate/ --migrationPath=@app/migrations/m170813_205400_projeckt
