@@ -10,9 +10,7 @@
 
 надо продолжить свои миграции две вот они
 
-*php yii migrate/up --migrationPath=@app/migrations/m170811_125456_add_new_field_to_profile.php*
-
-*php yii migrate/up --migrationPath=@app/migrations/m170813_205400_projeckt*
+*php yii migrate/up --migrationPath=@app/migrations/*
 
 в принципе проект можно считать развернутым. За исключением маленькой операци надо
 после регистрации первого админа

@@ -23,7 +23,7 @@ class m170813_205400_projeckt extends Migration
         $this->createTable('{{%image}}',[
             'id'=>$this->primaryKey(),
             'id_post'=>$this->integer()->notNull(),
-            'path '=>$this->string(610)->notNull(),
+            'path'=>$this->string(610)->notNull(),
             'name'=>$this->string(610)->notNull(),
         ]) ;
 
