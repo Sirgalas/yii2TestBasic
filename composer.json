@@ -17,7 +17,7 @@
         "source": "https://github.com/sirgalas/Sirgalas/yii2TestBasic"
     },
     "type": "project",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.4.0",
         "yiisoft/yii2": "~2.0.5",
