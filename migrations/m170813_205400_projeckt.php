@@ -38,7 +38,7 @@ class m170813_205400_projeckt extends Migration
             'id_post'=>$this->integer()->notNull(),
 
         ]) ;
-        $sqlMessage = "ALTER TABLE message_user ALTER is_active SET DEFAULT 'не прочитано'";
+        $sqlMessage = "ALTER TABLE viewd ALTER is_active SET DEFAULT 'не прочитано'";
         $this->execute($sqlMessage);
 
         $this->createTable('post',[
