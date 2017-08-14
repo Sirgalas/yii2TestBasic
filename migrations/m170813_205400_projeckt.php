@@ -29,10 +29,10 @@ class m170813_205400_projeckt extends Migration
 
         $this->createTable('message_user',[
             'id'=>$this->primaryKey(),
-            'id_user '=>$this->integer()->notNull(),
+            'id_user'=>$this->integer()->notNull(),
             'viewd'=>'ENUM("не прочитано", "прочитано")',
             'fromMessage'=>$this->integer()->notNull(),
-            'subject '=>$this->string(255)->notNull(),
+            'subject'=>$this->string(255)->notNull(),
             'text'=>$this->text()->notNull(),
             'preview'=>$this->string(610),
             'id_post'=>$this->integer()->notNull(),
@@ -49,7 +49,7 @@ class m170813_205400_projeckt extends Migration
             'preview'=>$this->string(610),
             'create_at'=>$this->integer()->notNull(),
             'update_at'=>$this->integer()->notNull(),
-            'autor_id '=>$this->integer()->notNull(),
+            'autor_id'=>$this->integer()->notNull(),
             'status'=>'ENUM("active", "blocked")',
         ]) ;
         $sqlPost = "ALTER TABLE post ALTER is_active SET DEFAULT 'active'";
