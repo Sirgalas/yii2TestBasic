@@ -38,7 +38,7 @@ class m170813_205400_projeckt extends Migration
             'id_post'=>$this->integer()->notNull(),
 
         ]) ;
-        $sqlMessage = "ALTER TABLE viewd ALTER is_active SET DEFAULT 'не прочитано'";
+        $sqlMessage = "ALTER TABLE `message_user` CHANGE `viewd` `viewd` ENUM('не прочитано','прочитано') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'не прочитано';";
         $this->execute($sqlMessage);
 
         $this->createTable('post',[
@@ -52,7 +52,7 @@ class m170813_205400_projeckt extends Migration
             'autor_id'=>$this->integer()->notNull(),
             'status'=>'ENUM("active", "blocked")',
         ]) ;
-        $sqlPost = "ALTER TABLE post ALTER is_active SET DEFAULT 'active'";
+        $sqlPost = "ALTER TABLE `post` CHANGE `status` `status` ENUM('active','blocked') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'active'";
         $this->execute($sqlPost);
     }
 
