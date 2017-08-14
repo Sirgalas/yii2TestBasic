@@ -2,8 +2,21 @@
     "name": "sergalas/yii2-test-basic",
     "description": "Yii 2 Basic Test Project Template",
     "keywords": ["yii2", "framework", "basic","test project", "project template"],
+    "homepage": "https://github.com/Sirgalas/yii2TestBasic",
+    "time": "2017-07-14",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Serge Beloventsev",
+            "email": "hudos@rambler.ru",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sirgalas/Sirgalas/yii2TestBasic",
+        "source": "https://github.com/sirgalas/Sirgalas/yii2TestBasic"
+    },
     "type": "project",
-    "license": "BSD-3-Clause",
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
