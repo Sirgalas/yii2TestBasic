@@ -16,6 +16,8 @@
 после регистрации первого админа
 раскоментировать строку
 ```//'admins' => ['Your name'] //first register user ```
-и раскоментировать строки в views/layouts/main.php в виджете nav
+
 admin в config/web.php модуля 'user' внести свое имя после выбрать пункт меню User redact.
 Создать роли 'admin','manager','user' создаются они во вкладке create/New role и назначить роль admin администратору
+
+После после создания и назначения пользователю роли 'admin' раскоментировать строки в views/layouts/main.php в виджете nav
