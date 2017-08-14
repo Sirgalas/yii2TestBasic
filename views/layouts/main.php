@@ -49,8 +49,8 @@ if(Yii::$app->user->isGuest){
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/']],
-            !empty($user['admin'])?
-                (['label' => 'User redact',  'url' => ['/user/admin/index ']]):'',
+            /*!empty($user['admin'])?
+                (['label' => 'User redact',  'url' => ['/user/admin/index ']]):''*/,
             !Yii::$app->user->isGuest?(['label' => 'Message',  'url' => ['/message/message-user/index ']]):'',
             $arrReg,
             $arrGuest
